@@ -166,9 +166,8 @@ This project is open source and available under the MIT License.
 
 **Shanmugavel Surya**
 - Portfolio: [https://surya.dev](https://surya.dev)
-- Email: surya@example.com
-- GitHub: [@surya](https://github.com/surya)
-- LinkedIn: [Shanmugavel Surya](https://linkedin.com/in/surya)
+- Email: shanmugavel127.com
+- GitHub: [@suryar](https://github.com/suryar)
 
 ## 🙏 Acknowledgments
 
