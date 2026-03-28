@@ -33,24 +33,19 @@ const photos = [
 
 export default function Photos() {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const reduce = useReducedMotion();
 
-  const categoryList = ["all", ...Array.from(new Set(photos.map((photo) => photo.category.toLowerCase())))];
-
-  const filteredPhotos = selectedCategory === "all" ? photos : photos.filter((photo) => photo.category.toLowerCase() === selectedCategory);
-
   const categoryMeta: Record<string, { title: string; description: string }> = {
-    all: { title: "The Full Album 🎬", description: `${filteredPhotos.length} moments of pure chaos & creativity! Tap any pic to see it big 👆` },
-    family: { title: "Family Memories ❤️", description: `Warm family portraits and special celebrations (${filteredPhotos.length} photos)` },
-    groom: { title: "Groom Journey 💍", description: `Adventure and transformation captures from the groom collection (${filteredPhotos.length} photos)` },
-    sports: { title: "Sports Highlights 🏏", description: `Action-packed sports shots and energetic moments (${filteredPhotos.length} photos)` },
-    candid: { title: "Candid Flicks 📸", description: `Natural candid shots showing raw emotion and storytelling (${filteredPhotos.length} photos)` },
-    transformation: { title: "Transformation Stories 🔄", description: `Before and after moments that document progress (${filteredPhotos.length} photos)` },
-    childhood: { title: "Childhood Tales 🌟", description: `Nostalgic childhood memories and early-days fun (${filteredPhotos.length} photos)` },
+    family: { title: "Family Memories ❤️", description: "Warm family portraits and special celebrations" },
+    groom: { title: "Groom Journey 💍", description: "Adventure and transformation captures" },
+    sports: { title: "Sports Highlights 🏏", description: "Action-packed sports shots and energetic moments" },
+    candid: { title: "Candid Flicks 📸", description: "Natural candid shots showing raw emotion and storytelling" },
+    transformation: { title: "Transformation Stories 🔄", description: "Before and after moments that document progress" },
+    childhood: { title: "Childhood Tales 🌟", description: "Nostalgic childhood memories and early-days fun" },
   };
 
-  const currentMeta = categoryMeta[selectedCategory] || categoryMeta.all;
+  const currentPhoto = selectedPhoto !== null ? photos[selectedPhoto] : null;
+  const currentCategoryMeta = currentPhoto ? categoryMeta[currentPhoto.category] : null;
 
   const close = useCallback(() => setSelectedPhoto(null), []);
 
@@ -76,28 +71,14 @@ export default function Photos() {
 
       <main>
         <section className="px-4 pb-6 pt-12 text-center sm:px-6 sm:pb-8 sm:pt-16 lg:px-8">
-          <div className="mb-5 flex flex-wrap justify-center gap-2">
-            {categoryList.map((category) => (
-              <button
-                key={category}
-                type="button"
-                onClick={() => setSelectedCategory(category)}
-                className={`rounded-full px-4 py-2 text-sm font-black transition-all ${
-                  selectedCategory === category
-                    ? "bg-lime-400 text-black shadow-lg"
-                    : "border border-white/30 bg-white/10 text-white hover:bg-white/20"
-                }`}
-              >
-                {category === "all" ? "All" : category.charAt(0).toUpperCase() + category.slice(1)}
-              </button>
-            ))}
-          </div>
           <Reveal from="up">
             <h1 className="text-4xl font-black text-lime-300 drop-shadow-lg sm:text-5xl md:text-6xl">
-              {currentMeta.title}
+              {currentCategoryMeta ? currentCategoryMeta.title : "The Full Album 🎬"}
             </h1>
             <p className="mt-4 text-base font-bold text-white drop-shadow-md sm:text-xl">
-              {currentMeta.description}
+              {currentCategoryMeta
+                ? currentCategoryMeta.description
+                : `${photos.length} moments of pure chaos & creativity; each category tells a unique story.`}
             </p>
           </Reveal>
         </section>
@@ -150,7 +131,7 @@ export default function Photos() {
         <section className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-              {filteredPhotos.map((photo, idx) => (
+              {photos.map((photo, idx) => (
                 <motion.button
                   key={photo.id}
                   type="button"
