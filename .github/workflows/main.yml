@@ -1,0 +1,10 @@
+            - name: test-autograde
+  # You may pin to the exact commit or the version.
+  # uses: masaditya/test-autograde@f3040d06e4948cdf3648a5ee235c36561dc145ec
+  uses: masaditya/test-autograde@v10.0
+  with:
+    # kelas yang diberikan tugas
+    kelas: # optional, default is 
+    # tugas minggu ke
+    minggu-ke: # optional, default is 
+          
