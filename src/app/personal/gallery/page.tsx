@@ -11,6 +11,8 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const imagePath = (src: string) => `${basePath}${src}`;
 
+const blurDataURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAn8B9lijQwAAAABJRU5ErkJggg==";
+
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [lightboxId, setLightboxId] = useState<number | null>(null);
@@ -198,6 +200,8 @@ export default function Gallery() {
                   width={1600}
                   height={900}
                   unoptimized
+                  placeholder="blur"
+                  blurDataURL={blurDataURL}
                   className="mb-5 max-h-[min(55vh,520px)] w-full cursor-default rounded-xl border-2 border-lime-400 object-contain sm:max-h-[520px]"
                 />
                 <motion.button
@@ -320,6 +324,8 @@ export default function Gallery() {
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                           unoptimized
+                          placeholder="blur"
+                          blurDataURL={blurDataURL}
                           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                         />
                       </div>

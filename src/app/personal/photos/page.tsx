@@ -11,6 +11,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const imagePath = (src: string) => `${basePath}${src}`;
+const blurDataURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAn8B9lijQwAAAABJRU5ErkJggg==";
 
 const photos = [
   { id: 1, title: "Personal Moment 1", category: "family", image: imagePath("/images/personal/IMG_0657.JPG.jpeg"), date: "2025", description: "A beautiful personal moment" },
@@ -112,6 +113,8 @@ export default function Photos() {
                   width={1600}
                   height={900}
                   unoptimized
+                  placeholder="blur"
+                  blurDataURL={blurDataURL}
                   className="mb-5 max-h-[min(55vh,500px)] w-full rounded-xl border-2 border-lime-400 object-contain sm:max-h-[500px]"
                 />
 
@@ -151,6 +154,8 @@ export default function Photos() {
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     unoptimized
+                    placeholder="blur"
+                    blurDataURL={blurDataURL}
                     className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
