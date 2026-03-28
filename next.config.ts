@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: 'export',
   trailingSlash: true,
+  basePath: '/surya.github.io',
+  assetPrefix: '/surya.github.io',
   typescript: {
     ignoreBuildErrors: false,
   },
