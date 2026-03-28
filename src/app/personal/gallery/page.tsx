@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import PersonalNavMotion from "@/components/personal/PersonalNavMotion";
-import { Reveal, ScrollProgressBar } from "@/components/personal/personal-motion";
+import { ScrollProgressBar } from "@/components/personal/personal-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -17,7 +16,6 @@ export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [lightboxId, setLightboxId] = useState<number | null>(null);
   const [transformationPhase, setTransformationPhase] = useState<"all" | "before" | "after">("all");
-  const reduce = useReducedMotion();
 
   const galleries = useMemo(
     () => [
@@ -172,74 +170,55 @@ export default function Gallery() {
       />
 
       <main>
-        <AnimatePresence>
-          {activeGallery && (
-            <motion.div
-              key={activeGallery.id}
-              className="fixed inset-0 z-[60] flex items-end justify-center bg-black/90 p-0 sm:items-center sm:p-4"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="gallery-lightbox-title"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              onClick={closeLightbox}
+        {activeGallery && (
+          <div
+            className="fixed inset-0 z-[60] flex items-end justify-center bg-black/90 p-0 sm:items-center sm:p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="gallery-lightbox-title"
+            onClick={closeLightbox}
+          >
+            <div
+              className="max-h-[100dvh] w-full max-w-4xl overflow-y-auto rounded-t-3xl border-4 border-lime-400 bg-gradient-to-br from-pink-600/50 to-purple-600/50 p-5 shadow-2xl sm:rounded-2xl sm:p-8"
+              onClick={(e) => e.stopPropagation()}
             >
-              <motion.div
-                className="max-h-[100dvh] w-full max-w-4xl overflow-y-auto rounded-t-3xl border-4 border-lime-400 bg-gradient-to-br from-pink-600/50 to-purple-600/50 p-5 shadow-2xl sm:rounded-2xl sm:p-8"
-                initial={reduce ? false : { opacity: 0, y: 120, scale: 0.92 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduce ? undefined : { opacity: 0, y: 80, scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                onClick={(e) => e.stopPropagation()}
+              <Image
+                src={activeGallery.image}
+                alt={activeGallery.title}
+                width={1600}
+                height={900}
+                unoptimized
+                placeholder="blur"
+                blurDataURL={blurDataURL}
+                className="mb-5 max-h-[min(55vh,520px)] w-full cursor-default rounded-xl border-2 border-lime-400 object-contain sm:max-h-[520px]"
+              />
+              <button
+                type="button"
+                onClick={closeLightbox}
+                className="w-full min-h-12 rounded-full bg-gradient-to-r from-lime-400 to-cyan-400 text-base font-black text-black"
               >
-                <Image
-                  src={activeGallery.image}
-                  alt={activeGallery.title}
-                  width={1600}
-                  height={900}
-                  unoptimized
-                  placeholder="blur"
-                  blurDataURL={blurDataURL}
-                  className="mb-5 max-h-[min(55vh,520px)] w-full cursor-default rounded-xl border-2 border-lime-400 object-contain sm:max-h-[520px]"
-                />
-                <motion.button
-                  type="button"
-                  onClick={closeLightbox}
-                  className="w-full min-h-12 rounded-full bg-gradient-to-r from-lime-400 to-cyan-400 text-base font-black text-black"
-                  whileHover={reduce ? undefined : { scale: 1.02 }}
-                  whileTap={reduce ? undefined : { scale: 0.98 }}
-                >
-                  Close
-                </motion.button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                Close
+              </button>
+            </div>
+          </div>
+        )}
 
         <section className="px-4 pb-8 pt-12 text-center sm:px-6 sm:pb-10 sm:pt-16 lg:px-8">
-          <Reveal from="up">
-            <motion.div
-              initial={reduce ? false : { opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.55, ease }}
-            >
+            <div>
               <h1 className="text-4xl font-black drop-shadow-lg sm:text-6xl md:text-7xl">
                 <span className="text-lime-300">Photo Collections</span>
               </h1>
               <p className="mt-4 text-lg font-bold text-white drop-shadow-md sm:text-2xl">
                 My life in pictures — because words can&apos;t always say it 📸✨
               </p>
-            </motion.div>
-          </Reveal>
+            </div>
         </section>
 
         <section className="px-4 pb-8 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="-mx-1 flex flex-wrap justify-center gap-2 sm:gap-3">
               {categories.map((cat) => (
-                <motion.button
+                <button
                   key={cat}
                   type="button"
                   onClick={() => {
@@ -248,28 +227,20 @@ export default function Gallery() {
                       setTransformationPhase("all");
                     }
                   }}
-                  layout
                   className={`rounded-full px-4 py-2.5 text-sm font-black transition-colors sm:px-6 sm:py-3 sm:text-lg ${
                     selectedCategory === cat
                       ? "bg-gradient-to-r from-lime-400 to-cyan-400 text-black shadow-lg shadow-lime-500/40"
                       : "border-2 border-lime-400 bg-gradient-to-r from-pink-600/50 to-purple-600/50 text-white hover:border-pink-400"
                   }`}
-                  whileTap={reduce ? undefined : { scale: 0.96 }}
-                  whileHover={reduce ? undefined : { scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 24 }}
                 >
                   {cat === "all" ? "All" : cat.charAt(0).toUpperCase() + cat.slice(1)}
-                </motion.button>
+                </button>
               ))}
             </div>
             {selectedCategory === "transformation" && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-6 flex justify-center gap-3"
-              >
+              <div className="mt-6 flex justify-center gap-3">
                 {["all", "before", "after"].map((phase) => (
-                  <motion.button
+                  <button
                     key={phase}
                     type="button"
                     onClick={() => setTransformationPhase(phase as "all" | "before" | "after")}
@@ -278,14 +249,11 @@ export default function Gallery() {
                         ? "bg-gradient-to-r from-orange-400 to-red-400 text-black shadow-lg shadow-orange-500/40"
                         : "border-2 border-orange-400 bg-gradient-to-r from-purple-600/50 to-pink-600/50 text-white hover:border-orange-400"
                     }`}
-                    whileTap={reduce ? undefined : { scale: 0.96 }}
-                    whileHover={reduce ? undefined : { scale: 1.03 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 24 }}
                   >
                     {phase.charAt(0).toUpperCase() + phase.slice(1)}
-                  </motion.button>
+                  </button>
                 ))}
-              </motion.div>
+              </div>
             )}
           </div>
         </section>
@@ -293,15 +261,12 @@ export default function Gallery() {
         <section className="px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-                    {displayedGalleries.map((gallery, idx) => {
-                      const isCategoryMode = selectedCategory !== "all";
-                      return (
-                    <motion.button
+              {displayedGalleries.map((gallery) => {
+                const isCategoryMode = selectedCategory !== "all";
+                return (
+                    <button
                       key={gallery.id}
                       type="button"
-                      initial={reduce ? false : { opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.2, delay: reduce ? 0 : idx * 0.03, ease }}
                       onClick={() => {
                         if (!isCategoryMode) {
                           setSelectedCategory(gallery.category.toLowerCase());
@@ -314,10 +279,8 @@ export default function Gallery() {
                           ? "border-lime-400 bg-gradient-to-br from-indigo-900 via-purple-800 to-cyan-900"
                           : "aspect-square border-lime-400 bg-gradient-to-br from-purple-600 to-purple-900"
                       }`}
-                      whileHover={reduce ? undefined : { y: -2 }}
-                      whileTap={reduce ? undefined : { scale: 0.99 }}
                     >
-                      <div className="relative aspect-square h-full w-full overflow-hidden rounded-xl sm:rounded-2xl">
+                            <div className="relative aspect-square h-full w-full overflow-hidden rounded-xl sm:rounded-2xl">
                         <Image
                           src={gallery.image}
                           alt={gallery.title}
@@ -326,7 +289,7 @@ export default function Gallery() {
                           unoptimized
                           placeholder="blur"
                           blurDataURL={blurDataURL}
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                          className="absolute inset-0 h-full w-full object-cover"
                         />
                       </div>
                       {isCategoryMode ? (
@@ -359,42 +322,34 @@ export default function Gallery() {
                           </div>
                         </>
                       )}
-                    </motion.button>
+                    </button>
                   );
                 })}
             </div>
           </div>
         </section>
         <section className="border-t border-white/10 bg-gradient-to-r from-purple-800/50 to-pink-800/50 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <Reveal from="up">
-            <div className="mx-auto max-w-4xl text-center">
+          <div className="mx-auto max-w-4xl text-center">
               <h2 className="text-3xl font-black text-lime-300 drop-shadow-lg sm:text-4xl">Want More? 🤔</h2>
               <p className="mb-8 mt-4 text-base font-bold text-white drop-shadow-md sm:text-lg">
                 Check out individual photos with full details and descriptions!
               </p>
-              <motion.div whileHover={reduce ? undefined : { scale: 1.04 }} whileTap={reduce ? undefined : { scale: 0.97 }}>
+              <div>
                 <Link
                   href="/personal/photos"
                   className="inline-block rounded-full bg-gradient-to-r from-lime-400 to-cyan-400 px-8 py-4 text-base font-black text-black shadow-xl sm:text-lg"
                 >
                   See All My Photos 📷
                 </Link>
-              </motion.div>
+              </div>
             </div>
-          </Reveal>
         </section>
 
-        <motion.footer
-          className="border-t-4 border-lime-400 bg-gradient-to-r from-purple-900 to-pink-900 py-10 shadow-lg shadow-lime-500/30 sm:py-12"
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, ease }}
-        >
+        <footer className="border-t-4 border-lime-400 bg-gradient-to-r from-purple-900 to-pink-900 py-10 shadow-lg shadow-lime-500/30 sm:py-12">
           <div className="mx-auto max-w-6xl px-4 text-center font-black text-white drop-shadow-md sm:px-6 lg:px-8">
             <p>Made with 📸 and infinite patience by Shanmugavel</p>
           </div>
-        </motion.footer>
+        </footer>
       </main>
     </div>
   );
