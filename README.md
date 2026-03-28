@@ -56,6 +56,40 @@ A modern, highly performant, and visually stunning portfolio website built with 
 4. **Open in browser**
    - Navigate to [http://localhost:3000](http://localhost:3000)
 
+## 🚀 Deployment to GitHub Pages
+
+This project is configured for static export and can be deployed to GitHub Pages.
+
+### Prerequisites
+- GitHub repository created
+- Repository set to public (required for GitHub Pages)
+
+### Deployment Steps
+
+1. **Push to GitHub**
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+   git push -u origin main
+   ```
+
+2. **Enable GitHub Pages**
+   - Go to your repository on GitHub
+   - Navigate to **Settings** → **Pages**
+   - Under **Source**, select **"GitHub Actions"**
+   - The deployment workflow will run automatically on push to main branch
+
+3. **Access your site**
+   - Your site will be available at: `https://YOUR_USERNAME.github.io/YOUR_REPO_NAME`
+   - For user/organization sites, use: `https://YOUR_USERNAME.github.io`
+
+### Notes
+- The site uses static export, so client-side routing works properly
+- Images are optimized and served from GitHub's CDN
+- The build process is automated via GitHub Actions
+
 ## 🏗️ Project Structure
 
 ```
