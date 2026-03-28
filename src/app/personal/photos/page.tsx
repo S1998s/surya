@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import PersonalNavMotion from "@/components/personal/PersonalNavMotion";
-import { Reveal, ScrollProgressBar } from "@/components/personal/personal-motion";
+import { ScrollProgressBar } from "@/components/personal/personal-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -35,7 +34,6 @@ const photos = [
 
 export default function Photos() {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
-  const reduce = useReducedMotion();
 
   const categoryMeta: Record<string, { title: string; description: string }> = {
     family: { title: "Family Memories ❤️", description: "Warm family portraits and special celebrations" },
@@ -73,7 +71,6 @@ export default function Photos() {
 
       <main>
         <section className="px-4 pb-6 pt-12 text-center sm:px-6 sm:pb-8 sm:pt-16 lg:px-8">
-          <Reveal from="up">
             <h1 className="text-4xl font-black text-lime-300 drop-shadow-lg sm:text-5xl md:text-6xl">
               {currentCategoryMeta ? currentCategoryMeta.title : "The Full Album 🎬"}
             </h1>
@@ -82,29 +79,18 @@ export default function Photos() {
                 ? currentCategoryMeta.description
                 : `${photos.length} moments of pure chaos & creativity; each category tells a unique story.`}
             </p>
-          </Reveal>
         </section>
 
-        <AnimatePresence>
-          {selectedPhoto !== null && (
-            <motion.div
-              key="lightbox"
+        {selectedPhoto !== null && (
+            <div
               className="fixed inset-0 z-[60] flex items-end justify-center bg-black/90 p-0 sm:items-center sm:p-4"
               role="dialog"
               aria-modal="true"
               aria-labelledby="lightbox-heading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
               onClick={close}
             >
-              <motion.div
+              <div
                 className="max-h-[100dvh] w-full max-w-4xl overflow-y-auto rounded-t-3xl border-4 border-lime-400 bg-gradient-to-br from-pink-600/50 to-purple-600/50 p-5 shadow-2xl sm:rounded-2xl sm:p-8"
-                initial={reduce ? false : { opacity: 0, y: 120, scale: 0.92 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduce ? undefined : { opacity: 0, y: 80, scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 320, damping: 28 }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <Image
@@ -118,35 +104,26 @@ export default function Photos() {
                   className="mb-5 max-h-[min(55vh,500px)] w-full rounded-xl border-2 border-lime-400 object-contain sm:max-h-[500px]"
                 />
 
-                <motion.button
+                <button
                   type="button"
                   onClick={close}
                   className="w-full min-h-12 rounded-full bg-gradient-to-r from-lime-400 to-cyan-400 text-base font-black text-black"
-                  whileHover={reduce ? undefined : { scale: 1.02 }}
-                  whileTap={reduce ? undefined : { scale: 0.98 }}
                 >
                   Close &amp; Relive 👀
-                </motion.button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                </button>
+              </div>
+            </div>
+        )}
 
         <section className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
               {photos.map((photo, idx) => (
-                <motion.button
+                <button
                   key={photo.id}
                   type="button"
                   onClick={() => setSelectedPhoto(idx)}
-                  className="group relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl border-4 border-lime-400 bg-gradient-to-br from-purple-600 to-purple-900 text-left shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 sm:rounded-2xl"
-                  initial={reduce ? false : { opacity: 0, y: 28, scale: 0.95 }}
-                  whileInView={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-5% 0px" }}
-                  transition={{ delay: reduce ? 0 : (idx % 6) * 0.05, duration: 0.45, ease }}
-                  whileHover={reduce ? undefined : { y: -4, borderColor: "rgb(34 211 238)" }}
-                  whileTap={reduce ? undefined : { scale: 0.97 }}
+                  className="group relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl border-4 border-lime-400 bg-gradient-to-br from-purple-600 to-purple-900 text-left shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 sm:rounded-2xl hover:-translate-y-1 hover:border-cyan-300 transition-all duration-300"
                 >
                   <Image
                     src={photo.image}
@@ -162,7 +139,7 @@ export default function Photos() {
                   <span className="absolute right-1.5 top-1.5 text-lg opacity-0 drop-shadow-lg transition-opacity group-hover:opacity-100 sm:right-2 sm:top-2 sm:text-2xl" aria-hidden>
                     🔍
                   </span>
-                </motion.button>
+                </button>
               ))}
             </div>
           </div>
@@ -177,29 +154,19 @@ export default function Photos() {
                 { label: "📅 Captured", value: "2023-2026" },
                 { label: "💭 Vibes", value: "∞" },
               ].map((stat, idx) => (
-                <motion.div
+                <div
                   key={stat.label}
-                  className="rounded-xl border-4 border-lime-400 bg-gradient-to-br from-pink-600/30 to-purple-600/30 p-4 text-center shadow-lg shadow-purple-500/30 sm:p-6"
-                  initial={reduce ? false : { opacity: 0, y: 24 }}
-                  whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: reduce ? 0 : idx * 0.08, duration: 0.45, ease }}
-                  whileHover={reduce ? undefined : { y: -4, scale: 1.02 }}
+                  className="rounded-xl border-4 border-lime-400 bg-gradient-to-br from-pink-600/30 to-purple-600/30 p-4 text-center shadow-lg shadow-purple-500/30 sm:p-6 hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300"
                 >
                   <div className="text-3xl font-black text-lime-300 drop-shadow-md sm:text-5xl">{stat.value}</div>
                   <p className="mt-1 text-xs font-bold text-white drop-shadow-md sm:text-base">{stat.label}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
-        <motion.footer
-          className="border-t-4 border-lime-400 bg-gradient-to-r from-purple-900 to-pink-900 py-10 shadow-lg shadow-lime-500/30 sm:py-12"
-          initial={reduce ? false : { opacity: 0 }}
-          whileInView={reduce ? undefined : { opacity: 1 }}
-          viewport={{ once: true }}
-        >
+        <footer className="border-t-4 border-lime-400 bg-gradient-to-r from-purple-900 to-pink-900 py-10 shadow-lg shadow-lime-500/30 sm:py-12">
           <div className="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
             <p className="font-black text-white drop-shadow-md">
               📷 Every photo = One story + Endless memories + A dash of chaos ✨
@@ -211,7 +178,7 @@ export default function Photos() {
               Back to gallery
             </Link>
           </div>
-        </motion.footer>
+        </footer>
       </main>
     </div>
   );
