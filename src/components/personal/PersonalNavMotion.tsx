@@ -38,14 +38,10 @@ export default function PersonalNavMotion({
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-        <motion.div whileHover={reduce ? undefined : { scale: 1.02 }} whileTap={reduce ? undefined : { scale: 0.98 }}>
-          <Link
-            href={brandHref}
-            className="block max-w-[11rem] truncate text-lg font-black text-lime-300 drop-shadow-lg sm:max-w-none sm:text-2xl"
-            onClick={() => setOpen(false)}
-          >
+        <motion.div whileHover={reduce ? undefined : { scale: 1.02 }}>
+          <span className="block max-w-[11rem] truncate text-lg font-black text-lime-300 drop-shadow-lg sm:max-w-none sm:text-2xl">
             {brandLabel}
-          </Link>
+          </span>
         </motion.div>
 
         <div className="hidden items-center gap-5 md:flex">

@@ -36,6 +36,11 @@ export default function Photos() {
   const reduce = useReducedMotion();
   const photoCount = photos.length;
   const collectionCount = new Set(photos.map((photo) => photo.category.toLowerCase())).size;
+  const years = photos
+    .map((photo) => Number(photo.date))
+    .filter((year) => Number.isFinite(year));
+  const capturedRange =
+    years.length > 0 ? `${Math.min(...years)}-${Math.max(...years)}` : `${new Date().getFullYear()}`;
 
   const close = useCallback(() => setSelectedPhoto(null), []);
 
@@ -158,22 +163,23 @@ export default function Photos() {
           <div className="mx-auto max-w-6xl">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
               {[
-                { label: "📸 Total Photos", value: photoCount },
-                { label: "🎨 Collections", value: collectionCount },
-                { label: "📅 Captured", value: "2023-2026" },
-                { label: "💭 Vibes", value: "∞" },
+                { label: "📸 Total Photos", value: photoCount, helper: "Moments captured" },
+                { label: "🎨 Collections", value: collectionCount, helper: "Story categories" },
+                { label: "📅 Captured", value: capturedRange, helper: "Timeline covered" },
+                { label: "💭 Vibes", value: "∞", helper: "Memories that last" },
               ].map((stat, idx) => (
                 <motion.div
                   key={stat.label}
-                  className="rounded-xl border-4 border-lime-400 bg-gradient-to-br from-pink-600/30 to-purple-600/30 p-4 text-center shadow-lg shadow-purple-500/30 sm:p-6"
+                  className="flex min-h-[160px] flex-col items-center justify-center rounded-xl border-4 border-lime-400 bg-gradient-to-br from-pink-600/30 to-purple-600/30 p-4 text-center shadow-lg shadow-purple-500/30 sm:min-h-[190px] sm:p-6"
                   initial={reduce ? false : { opacity: 0, y: 24 }}
                   whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: reduce ? 0 : idx * 0.08, duration: 0.45, ease }}
                   whileHover={reduce ? undefined : { y: -4, scale: 1.02 }}
                 >
-                  <div className="text-3xl font-black text-lime-300 drop-shadow-md sm:text-5xl">{stat.value}</div>
-                  <p className="mt-1 text-xs font-bold text-white drop-shadow-md sm:text-base">{stat.label}</p>
+                  <div className="leading-none text-4xl font-black text-lime-300 drop-shadow-md sm:text-6xl">{stat.value}</div>
+                  <p className="mt-3 text-sm font-black text-white drop-shadow-md sm:text-lg">{stat.label}</p>
+                  <p className="mt-1 text-xs font-semibold text-white/85 sm:text-sm">{stat.helper}</p>
                 </motion.div>
               ))}
             </div>

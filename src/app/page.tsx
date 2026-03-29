@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import MatrixBackground from "@/components/MatrixBackground";
-import RouteLoadingOverlay from "../components/RouteLoadingOverlay";
+import RouteLoadingOverlay from "@/components/RouteLoadingOverlay";
 import { personalName, professionalName, contactEmail, contactPhone } from "@/lib/siteInfo";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";

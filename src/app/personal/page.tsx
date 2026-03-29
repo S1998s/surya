@@ -32,7 +32,7 @@ export default function PersonalPage() {
       <ScrollProgressBar />
       <PersonalNavMotion
         brandLabel="🎉 Personal Zone 🎉"
-        brandHref="/"
+        brandHref="/personal"
         active="about"
         backHref="/"
         backLabel="← Portfolio home"
@@ -79,7 +79,7 @@ export default function PersonalPage() {
                 className="mt-4 text-xl font-bold text-white drop-shadow-md sm:text-3xl lg:text-4xl"
               >
                 Welcome to the <span className="text-cyan-300">Chaotic</span> Creative Side of{" "}
-                <span className="text-pink-300">Shanmugavel</span>
+                <span className="text-pink-300">{personalName}</span>
               </motion.p>
               <motion.p
                 variants={heroItem}

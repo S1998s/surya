@@ -162,7 +162,7 @@ export default function Gallery() {
     <div className="min-h-screen bg-gradient-to-br from-pink-900 via-purple-900 to-cyan-900">
       <ScrollProgressBar />
       <PersonalNavMotion
-        brandLabel="🎨 My Gallery 🎨"
+        brandLabel="🖼️ Curated Photo Gallery 🖼️"
         brandHref="/personal"
         active="gallery"
         backHref="/personal"
