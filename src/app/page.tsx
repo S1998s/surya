@@ -1,10 +1,28 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import MatrixBackground from "@/components/MatrixBackground";
+import RouteLoadingOverlay from "../components/RouteLoadingOverlay";
 import { personalName, professionalName, contactEmail, contactPhone } from "@/lib/siteInfo";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const professionalPillImageSrc = `${basePath}/images/blue-pill.png`;
+const personalPillImageSrc = `${basePath}/images/red-pill.png`;
+
 export default function Landing() {
+  const [loadingVariant, setLoadingVariant] = useState<"professional" | "personal" | null>(null);
+
   return (
     <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center px-4">
+      {loadingVariant && (
+        <RouteLoadingOverlay
+          variant={loadingVariant}
+          title={loadingVariant === "professional" ? "Entering Professional" : "Entering Personal"}
+          subtitle={loadingVariant === "professional" ? "Compiling career highlights..." : "Loading creative universe..."}
+        />
+      )}
+
       {/* Matrix Video Style Background */}
       <MatrixBackground />
 
@@ -34,22 +52,24 @@ export default function Landing() {
           <Link
             href="/professional"
             className="group relative w-full sm:w-auto"
+            onClick={() => setLoadingVariant("professional")}
           >
             <div className="relative w-full sm:w-64 h-32 sm:h-32 md:h-40 cursor-pointer transition-all duration-500 transform hover:scale-105 sm:hover:scale-110 max-w-xs mx-auto">
               {/* Outer Glow */}
               <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full filter blur-xl opacity-0 group-hover:opacity-75 transition-all duration-300 animate-pulse"></div>
               
               {/* Pill Shape with Background Image */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center rounded-full flex items-center justify-center shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400 group-hover:border-cyan-300 transition-all"
-                style={{
-                  backgroundImage: 'linear-gradient(135deg, rgba(6, 182, 212, 0.8) 0%, rgba(3, 105, 161, 0.8) 100%), url(/surya/images/red-pill.jpg)',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center'
-                }}
-              >
+              <div className="absolute inset-0 rounded-full flex items-center justify-center overflow-hidden shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400 group-hover:border-cyan-300 transition-all bg-gradient-to-br from-cyan-500/35 to-sky-800/55">
+                <img
+                  src={professionalPillImageSrc}
+                  alt=""
+                  width={1152}
+                  height={768}
+                  className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/35 via-blue-500/20 to-sky-900/70" />
                 {/* Inner Content */}
-                <div className="text-center z-10">
+                <div className="relative z-10 text-center">
                   <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-white drop-shadow-lg">Professional</h2>
                   <p className="text-xs text-cyan-100 mt-1 drop-shadow-md">Reality</p>
                 </div>
@@ -68,22 +88,24 @@ export default function Landing() {
           <Link
             href="/personal"
             className="group relative w-full sm:w-auto"
+            onClick={() => setLoadingVariant("personal")}
           >
             <div className="relative w-full sm:w-64 h-32 sm:h-32 md:h-40 cursor-pointer transition-all duration-500 transform hover:scale-105 sm:hover:scale-110 max-w-xs mx-auto">
               {/* Outer Glow */}
               <div className="absolute -inset-2 bg-gradient-to-r from-pink-500 to-red-500 rounded-full filter blur-xl opacity-0 group-hover:opacity-75 transition-all duration-300 animate-pulse" style={{animationDelay: '0.3s'}}></div>
               
               {/* Pill Shape with Background Image */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center rounded-full flex items-center justify-center shadow-2xl shadow-pink-500/50 border-2 border-pink-400 group-hover:border-pink-300 transition-all"
-                style={{
-                  backgroundImage: 'linear-gradient(135deg, rgba(236, 72, 153, 0.8) 0%, rgba(220, 38, 38, 0.8) 100%), url(/surya/images/red-pill.jpg)',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center'
-                }}
-              >
+              <div className="absolute inset-0 rounded-full flex items-center justify-center overflow-hidden shadow-2xl shadow-pink-500/50 border-2 border-pink-400 group-hover:border-pink-300 transition-all bg-gradient-to-br from-pink-500/35 to-red-600/55">
+                <img
+                  src={personalPillImageSrc}
+                  alt=""
+                  width={1152}
+                  height={768}
+                  className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/40 via-rose-500/35 to-red-700/70" />
                 {/* Inner Content */}
-                <div className="text-center z-10">
+                <div className="relative z-10 text-center">
                   <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-white drop-shadow-lg">Personal</h2>
                   <p className="text-xs text-pink-100 mt-1 drop-shadow-md">Liberation</p>
                 </div>

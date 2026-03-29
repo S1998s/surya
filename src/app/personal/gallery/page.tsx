@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import OptimizedImage from "@/components/OptimizedImage";
 import PersonalNavMotion from "@/components/personal/PersonalNavMotion";
 import { Reveal, ScrollProgressBar } from "@/components/personal/personal-motion";
 
@@ -22,72 +23,72 @@ export default function Gallery() {
         id: 1,
         title: "Childhood",
         category: "Childhood",
-        image: imagePath("/images/personal/IMG_0657.JPG.jpeg"),
+        image: imagePath("/images/personal/childhood-1.jpeg"),
         description: "Beautiful sunrise captures from various locations",
       },
       {
         id: 16,
         title: "Childhood",
         category: "Childhood",
-        image: imagePath("/images/personal/IMG_2645.JPG.jpeg"),
+        image: imagePath("/images/personal/childhood-2.jpeg"),
         description: "Beautiful sunrise captures from various locations",
       },
       {
         id: 2,
-        title: "Groom photos",
-        category: "groom",
-        image: imagePath("/images/personal/IMG_20260102_124714.jpg.jpeg"),
+        title: "Portrait photos",
+        category: "portraits",
+        image: imagePath("/images/personal/portraits-1.jpeg"),
         description: "Mountain hiking and nature exploration",
       },
       {
         id: 17,
-        title: "Groom photos",
-        category: "groom",
-        image: imagePath("/images/personal/IMG_5426.PNG"),
+        title: "Portrait photos",
+        category: "portraits",
+        image: imagePath("/images/personal/portraits-2.png"),
         description: "Mountain hiking and nature exploration",
       },
       {
         id: 3,
         title: "Transformation",
-        category: "groom",
-        image: imagePath("/images/personal/IMG_6918.JPG.jpeg"),
+        category: "portraits",
+        image: imagePath("/images/personal/portraits-3.jpeg"),
         description: "City life and urban landscapes",
       },
       {
         id: 4,
         title: "Cricket Passion",
         category: "sports",
-        image: imagePath("/images/personal/35864.jpg.jpeg"),
+        image: imagePath("/images/personal/sports-1.jpeg"),
         description: "Cricket matches and playing moments",
       },
       {
         id: 5,
         title: "Candid",
         category: "candid",
-        image: imagePath("/images/personal/IMG_3929.JPG.jpeg"),
+        image: imagePath("/images/personal/candid-1.jpeg"),
         description: "Fitness journey and sports activities",
       },
       {
         id: 10,
         title: "Candid",
         category: "candid",
-        image: imagePath("/images/personal/IMG_6428.jpg"),
+        image: imagePath("/images/personal/candid-2.jpg"),
         description: "Fitness journey and sports activities",
       },
       {
         id: 6,
         title: "Family Moments",
         category: "family",
-        image: imagePath("/images/personal/IMG_20260321_214954.jpg.jpeg"),
+        image: imagePath("/images/personal/family-1.jpeg"),
         description: "Precious family memories and celebrations",
       },
-      { id: 7, title: "Family Moment 2", category: "sports", image: imagePath("/images/personal/35873.jpg.jpeg"), date: "2025", description: "Family celebration" },
-      { id: 8, title: "Vicktory", category: "sports", image: imagePath("/images/personal/44252.jpg.jpeg"), date: "2025", description: "Family memories" },
-      { id: 9, title: "Before won", category: "transformation", phase: "before", image: imagePath("/images/personal/1678018714280.jpg.jpeg"), date: "2023", description: "Nature moment" },
-      { id: 12, title: "Special Photo", category: "groom", image: imagePath("/images/personal/IMG_0935%20Copy%20Copy.jpg.jpeg"), date: "2025", description: "Special moment captured" },
-      { id: 13, title: "After Transformation", category: "transformation", phase: "after", image: imagePath("/images/personal/IMG_5017.jpg"), date: "2024", description: "Urban scene" },
-      { id: 14, title: "Transformation Complete", category: "transformation", phase: "after", image: imagePath("/images/personal/IMG_5027.jpg"), date: "2024", description: "New beginning" },
-      { id: 15, title: "Transformation Complete", category: "transformation", phase: "after", image: imagePath("/images/personal/IMG_5026.jpg"), date: "2024", description: "New beginning" },
+      { id: 7, title: "Family Moment 2", category: "sports", image: imagePath("/images/personal/sports-2.jpeg"), date: "2025", description: "Family celebration" },
+      { id: 8, title: "Vicktory", category: "sports", image: imagePath("/images/personal/sports-3.jpeg"), date: "2025", description: "Family memories" },
+      { id: 9, title: "Before won", category: "transformation", phase: "before", image: imagePath("/images/personal/transformation-before-1.jpeg"), date: "2023", description: "Nature moment" },
+      { id: 12, title: "Special Photo", category: "portraits", image: imagePath("/images/personal/portraits-4.jpeg"), date: "2025", description: "Special moment captured" },
+      { id: 13, title: "After Transformation", category: "transformation", phase: "after", image: imagePath("/images/personal/transformation-after-1.jpg"), date: "2024", description: "Urban scene" },
+      { id: 14, title: "Transformation Complete", category: "transformation", phase: "after", image: imagePath("/images/personal/transformation-after-2.jpg"), date: "2024", description: "New beginning" },
+      { id: 15, title: "Transformation Complete", category: "transformation", phase: "after", image: imagePath("/images/personal/transformation-after-3.jpg"), date: "2024", description: "New beginning" },
     ],
     []
   );
@@ -158,7 +159,7 @@ export default function Gallery() {
   }, [lightboxId, closeLightbox]);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-gradient-to-br from-pink-900 via-purple-900 to-cyan-900">
+    <div className="min-h-screen bg-gradient-to-br from-pink-900 via-purple-900 to-cyan-900">
       <ScrollProgressBar />
       <PersonalNavMotion
         brandLabel="🎨 My Gallery 🎨"
@@ -191,14 +192,17 @@ export default function Gallery() {
                 transition={{ type: "spring", stiffness: 320, damping: 28 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <motion.img
-                  src={activeGallery.image}
-                  alt={activeGallery.title}
-                  className="mb-5 max-h-[min(55vh,520px)] w-full cursor-default rounded-xl border-2 border-lime-400 object-contain sm:max-h-[520px]"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
+                <div className="mb-5 overflow-hidden rounded-xl border-2 border-lime-400">
+                  <OptimizedImage
+                    src={activeGallery.image}
+                    alt={activeGallery.title}
+                    width={1280}
+                    height={960}
+                    className="max-h-[min(55vh,520px)] w-full cursor-default object-contain sm:max-h-[520px]"
+                    priority
+                    sizes="(max-width: 640px) 100vw, 80vw"
+                  />
+                </div>
                 <motion.button
                   type="button"
                   onClick={closeLightbox}
@@ -329,12 +333,14 @@ export default function Gallery() {
                       whileTap={reduce ? undefined : { scale: 0.97 }}
                     >
                       <div className="relative aspect-square h-full w-full overflow-hidden rounded-xl sm:rounded-2xl">
-                        <motion.img
+                        <OptimizedImage
                           src={gallery.image}
                           alt={gallery.title}
+                          width={640}
+                          height={640}
                           className="h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-                          whileHover={reduce ? undefined : { scale: 1.08 }}
-                          transition={{ duration: 0.45, ease }}
+                          priority={idx < 4}
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         />
                       </div>
                       {isCategoryMode ? (

@@ -428,7 +428,7 @@ export default function PersonalPage() {
                       Photo Gallery 🎨
                     </h3>
                     <p className="mb-4 mt-2 font-bold text-white drop-shadow-md">
-                      My collections organized by vibes — Childhood, groom, sports, and more!
+                      My collections organized by vibes — Childhood, portraits, sports, and more!
                     </p>
                     <div className="flex items-center gap-2 text-lg font-black text-lime-300">
                       Explore Collections →
