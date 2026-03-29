@@ -3,7 +3,7 @@
 export default function Certifications() {
   const certifications = [
     {
-      icon: "https://www.adobe.com/federal/assets/svgs/adobe-logo.svg",
+      icon: "https://images.credly.com/images/39b1c8ca-eba9-4734-ac33-25fd3dce7502/Adobe_Certified_Professional_Adobe_ColdFusion_digital_badge.png",
       title: "Adobe Certified Professional",
       issuer: "Adobe Inc.",
       detail: "Adobe ColdFusion certification is the industry-recognized validation of one's proficiency in creating dynamic websites using Adobe ColdFusion.",
