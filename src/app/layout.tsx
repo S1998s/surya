@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { professionalName, description } from "@/lib/siteInfo";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export const metadata: Metadata = {
   title: `${professionalName}`,
   description,
@@ -14,10 +16,6 @@ export const metadata: Metadata = {
     "Mitrasoft",
     "SQL Server",
   ],
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
 };
 
 export default function RootLayout({
@@ -27,6 +25,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <link rel="icon" href={`${basePath}/logo.png`} />
+        <link rel="apple-touch-icon" href={`${basePath}/logo.png`} />
+      </head>
       <body className="bg-dark-bg text-dark-text antialiased">
         {children}
       </body>

@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim() || "";
+const basePath = process.env.NODE_ENV === "production"
+  ? (configuredBasePath || "/suriya")
+  : configuredBasePath;
 
 const nextConfig: NextConfig = {
   output: "export",
