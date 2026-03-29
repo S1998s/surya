@@ -40,7 +40,7 @@ A modern, highly performant, and visually stunning portfolio website built with 
 
 1. **Clone or navigate to the project directory**
    ```bash
-   cd d:\surya
+   cd d:\suriya
    ```
 
 2. **Install dependencies**
@@ -93,7 +93,7 @@ This project is configured for static export and can be deployed to GitHub Pages
 ## 🏗️ Project Structure
 
 ```
-d:\surya/
+d:\suriya/
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx              # Home page
@@ -199,9 +199,9 @@ This project is open source and available under the MIT License.
 ## 👤 Author
 
 **Shanmugavel Suriya**
-- Portfolio: [https://surya.dev](https://surya.dev)
+- Portfolio: [https://suriya.dev](https://suriya.dev)
 - Email: shanmugavel127.com
-- GitHub: [@suryar](https://github.com/suryar)
+- GitHub: [@suriyar](https://github.com/suriyar)
 
 ## 🙏 Acknowledgments
 
