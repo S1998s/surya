@@ -497,14 +497,14 @@ export default function PersonalPage() {
               </MotionItem>
               <MotionItem className="w-full sm:w-auto">
                 <motion.a
-                  href="https://www.linkedin.com/in/shanmugavelcf/"
+                  href="https://www.instagram.com/shanmugavelsuriya/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex min-h-12 w-full items-center justify-center rounded-full border-4 border-lime-400 px-8 py-4 text-center text-base font-black text-lime-300 shadow-lg sm:w-auto sm:text-lg"
                   whileHover={reduce ? undefined : { scale: 1.04, backgroundColor: "rgba(163, 230, 53, 0.25)" }}
                   whileTap={reduce ? undefined : { scale: 0.97 }}
                 >
-                  🔗 Connect on LinkedIn
+                  📸 Follow me on Instagram
                 </motion.a>
               </MotionItem>
               <MotionItem className="w-full sm:w-auto">

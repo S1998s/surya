@@ -26,21 +26,51 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    const form = e.currentTarget;
+    const payload = new FormData(form);
+
+    const sentAt = new Date().toLocaleString("en-IN", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+
+    const safeName = String(payload.get("name") ?? "").trim() || "Website Visitor";
+    const safeEmail = String(payload.get("email") ?? "").trim();
+    const safeSubject = String(payload.get("subject") ?? "").trim() || "New contact form message";
+    const safeMessage = String(payload.get("message") ?? "").trim();
+    const emailBody = `Name: ${safeName}\nEmail: ${safeEmail}\nSubject: ${safeSubject}\nTime: ${sentAt}\n\nMessage:\n${safeMessage}`;
 
     try {
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          from_name:    formData.name,
-          from_email:   formData.email,
-          subject:      formData.subject,
-          message:      formData.message,
-          to_email:     "shanmugavel127@gmail.com",
+          from_name: safeName,
+          from_email: safeEmail,
+          name: safeName,
+          email: safeEmail,
+          user_name: safeName,
+          user_email: safeEmail,
+          sender_name: safeName,
+          sender_email: safeEmail,
+          contact_name: safeName,
+          contact_email: safeEmail,
+          reply_to: safeEmail,
+          subject: safeSubject,
+          title: safeSubject,
+          contact_subject: safeSubject,
+          message: safeMessage,
+          contact_message: safeMessage,
+          time: sentAt,
+          sent_at: sentAt,
+          contact_time: sentAt,
+          email_body: emailBody,
+          to_email: "shanmugavel127@gmail.com",
         },
         EMAILJS_PUBLIC_KEY
       );
