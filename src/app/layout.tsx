@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { professionalName, description } from "@/lib/siteInfo";
+import { professionalName } from "@/lib/siteInfo";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
   title: `${professionalName}`,
-  description,
   keywords: [
     "software engineer",
     "developer",
@@ -15,6 +14,7 @@ export const metadata: Metadata = {
     "manufacturing",
     "Mitrasoft",
     "SQL Server",
+    "coldfusion",
   ],
 };
 
