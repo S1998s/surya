@@ -3,7 +3,7 @@ import "./globals.css";
 import { professionalName, description } from "@/lib/siteInfo";
 
 export const metadata: Metadata = {
-  title: `${professionalName} | Senior Software Engineer`,
+  title: `${professionalName}`,
   description,
   keywords: [
     "software engineer",
