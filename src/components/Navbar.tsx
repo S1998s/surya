@@ -21,6 +21,15 @@ export default function Navbar() {
 		if (!showResumeModal) return;
 
 		const resumePath = resumeUrl;
+		const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+		// On localhost, always use direct PDF (Google viewer can't access localhost URLs)
+		if (isLocalhost) {
+			setResumeViewerSrc(resumePath);
+			return;
+		}
+
+		// On production, use Google embedded viewer for mobile
 		if (window.innerWidth < 1024) {
 			const absoluteResumeUrl = `${window.location.origin}${resumePath}`;
 			setResumeViewerSrc(
