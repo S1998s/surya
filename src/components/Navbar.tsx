@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -9,6 +9,32 @@ export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [resumeDownloaded, setResumeDownloaded] = useState(false);
 	const [showResumeModal, setShowResumeModal] = useState(false);
+
+	useEffect(() => {
+		if (!showResumeModal) return;
+
+		const scrollY = window.scrollY;
+		const previousBodyOverflow = document.body.style.overflow;
+		const previousBodyPosition = document.body.style.position;
+		const previousBodyTop = document.body.style.top;
+		const previousBodyWidth = document.body.style.width;
+		const previousHtmlOverflow = document.documentElement.style.overflow;
+
+		document.documentElement.style.overflow = "hidden";
+		document.body.style.overflow = "hidden";
+		document.body.style.position = "fixed";
+		document.body.style.top = `-${scrollY}px`;
+		document.body.style.width = "100%";
+
+		return () => {
+			document.documentElement.style.overflow = previousHtmlOverflow;
+			document.body.style.overflow = previousBodyOverflow;
+			document.body.style.position = previousBodyPosition;
+			document.body.style.top = previousBodyTop;
+			document.body.style.width = previousBodyWidth;
+			window.scrollTo(0, scrollY);
+		};
+	}, [showResumeModal]);
 
 	const navLinks = [
 		{ name: "About", href: "#about" },
@@ -149,8 +175,8 @@ export default function Navbar() {
 							</button>
 						</div>
 
-						{/* PDF Viewer — desktop only (iframes can't render PDFs on mobile browsers) */}
-						<div className="hidden md:flex flex-1 min-h-0 overflow-hidden bg-dark-muted/20">
+						{/* PDF Viewer — large screens only (in-app PDF rendering is unreliable on mobile/tablet browsers) */}
+						<div className="hidden lg:flex flex-1 min-h-0 overflow-hidden bg-dark-muted/20">
 							<iframe
 								src={`${basePath}/Shanmugavel_Resume.pdf`}
 								className="w-full h-full border-0"
@@ -158,8 +184,8 @@ export default function Navbar() {
 							/>
 						</div>
 
-						{/* Mobile Fallback */}
-						<div className="flex md:hidden flex-1 flex-col items-center justify-center gap-6 px-8">
+						{/* Mobile/Tablet Fallback */}
+						<div className="flex lg:hidden flex-1 flex-col items-center justify-center gap-6 px-8">
 							<svg className="w-24 h-24 text-blue-400 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
 									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -191,8 +217,8 @@ export default function Navbar() {
 							</div>
 						</div>
 
-						{/* Footer — desktop only */}
-						<div className="hidden md:flex items-center justify-end gap-3 p-2 sm:p-3 border-t border-dark-border bg-dark-muted/10 shrink-0">
+						{/* Footer — large screens only */}
+						<div className="hidden lg:flex items-center justify-end gap-3 p-2 sm:p-3 border-t border-dark-border bg-dark-muted/10 shrink-0">
 							<button
 								onClick={() => setShowResumeModal(false)}
 								className="px-4 py-2 border border-dark-border text-dark-muted rounded-lg hover:bg-dark-border transition-colors"
